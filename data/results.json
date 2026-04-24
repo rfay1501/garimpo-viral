@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-04-24T08:07:05.859653+00:00",
+  "total": 0,
+  "niches": {
+    "financas": "Finanças Pessoais & Renda Extra",
+    "misterios": "Curiosidades Bizarras & Mistérios",
+    "saude": "Saúde & Longevidade",
+    "psicologia_social": "Relacionamentos & Psicologia Social",
+    "motivacao_masculina": "Motivação Masculina & Disciplina",
+    "luxo": "Luxo & Vida de Milionários",
+    "historia": "História Resumida",
+    "ia_tech": "IA & Tecnologia Prática",
+    "true_crime": "True Crime",
+    "espiritualidade": "Espiritualidade & Filosofia"
+  },
+  "languages": {
+    "en": "Inglês",
+    "es": "Espanhol",
+    "pt": "Português"
+  },
+  "config": {
+    "min_views": 10000,
+    "max_video_age_days": 15
+  },
+  "videos": []
+}
