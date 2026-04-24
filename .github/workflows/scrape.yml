@@ -39,6 +39,12 @@ jobs:
 
       - name: Commit updated results
         run: |
+          # Guard: não commitar se YouTube bloqueou (0 vídeos achados)
+          TOTAL=$(python3 -c "import json; print(json.load(open('data/results.json'))['total'])")
+          if [ "$TOTAL" -eq 0 ]; then
+            echo "⚠ 0 vídeos achados (provável bloqueio YT do IP GH Actions). Pulando commit."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/results.json docs/results.json

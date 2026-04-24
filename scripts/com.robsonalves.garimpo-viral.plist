@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.robsonalves.garimpo-viral</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/robsonalves/claude code inicio youtube/garimpo-viral/scripts/run-and-push.sh</string>
+    </array>
+
+    <!-- Roda a cada 6 horas (em segundos: 21600) -->
+    <key>StartInterval</key>
+    <integer>21600</integer>
+
+    <!-- NÃO roda imediatamente no carregamento — espera 6h depois do load -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <!-- Logs -->
+    <key>StandardOutPath</key>
+    <string>/tmp/garimpo-viral.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/garimpo-viral.err</string>
+
+    <!-- PATH do usuário pra achar python3, git, etc. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/robsonalves/Library/Python/3.9/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>
