@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Copiloto — Decisão de Canal Dark</title>
+<style>
+  :root {
+    --bg: #0b0d12;
+    --panel: #141820;
+    --panel-hi: #1c2230;
+    --border: #262c3a;
+    --text: #e8ebf1;
+    --text-dim: #8b93a7;
+    --accent: #7c5cff;
+    --accent-2: #39d98a;
+    --warn: #ff8a5c;
+    --danger: #ff5c7a;
+    --gold: #f5c24b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 { margin: 0; font-size: 22px; }
+  header .sub { color: var(--text-dim); font-size: 13px; margin-top: 4px; }
+  header a { color: var(--text-dim); font-size: 13px; text-decoration: none; }
+  header a:hover { color: var(--accent); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 32px 120px; }
+
+  section.step {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  section.step h2 { margin: 0 0 8px; font-size: 20px; }
+  section.step .lead { color: var(--text-dim); margin: 0 0 20px; font-size: 14px; }
+
+  .step-num {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    background: var(--panel-hi);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  textarea { min-height: 80px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  .field { margin-bottom: 16px; }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .chip {
+    padding: 6px 12px;
+    background: var(--panel-hi);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--text-dim);
+    cursor: pointer;
+    user-select: none;
+  }
+  .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .exp-item {
+    background: var(--panel-hi);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .exp-item .letter {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .exp-item.gold .letter { background: var(--gold); color: #000; }
+  .exp-item textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 40px;
+  }
+  .exp-item textarea:focus { outline: none; }
+  .exp-item .del {
+    color: var(--text-dim);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    opacity: 0.4;
+    padding: 0 4px;
+  }
+  .exp-item .del:hover { opacity: 1; color: var(--danger); }
+
+  button.primary {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.primary:hover { filter: brightness(1.1); }
+  button.secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  button.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .niche-card {
+    background: var(--panel-hi);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+  .niche-card h3 { margin: 0 0 6px; font-size: 17px; }
+  .niche-rank {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .niche-rank.gold { background: var(--gold); color: #000; }
+  .niche-rank.silver { background: #b8b8b8; color: #000; }
+  .niche-rank.bronze { background: #cd7f32; color: #fff; }
+
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+    font-size: 12px;
+  }
+  .stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: var(--text-dim);
+  }
+  .stat b { color: var(--text); }
+  .stat.good b { color: var(--accent-2); }
+  .stat.warn b { color: var(--warn); }
+  .stat.bad b { color: var(--danger); }
+
+  .why {
+    font-size: 13px;
+    color: var(--text-dim);
+    background: rgba(124,92,255,0.08);
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px;
+    margin-top: 8px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .angle-card {
+    background: rgba(245,194,75,0.06);
+    border: 1px solid rgba(245,194,75,0.3);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 10px 0;
+  }
+  .angle-card .tag {
+    display: inline-block;
+    background: var(--gold);
+    color: #000;
+    font-weight: 700;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .angle-card h4 { margin: 0 0 6px; font-size: 15px; }
+  .angle-card .source {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  .plan-card {
+    background: var(--panel-hi);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 14px 0;
+  }
+  .plan-card h4 { margin: 0 0 10px; color: var(--accent); font-size: 15px; }
+  .plan-card dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 13px; }
+  .plan-card dt { color: var(--text-dim); }
+  .plan-card dd { margin: 0; color: var(--text); }
+  .kill {
+    background: rgba(255,92,122,0.08);
+    border-left: 3px solid var(--danger);
+    padding: 10px 12px;
+    margin-top: 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+  }
+  .kill b { color: var(--danger); }
+
+  .intro-warning {
+    background: rgba(245,194,75,0.08);
+    border: 1px solid rgba(245,194,75,0.3);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .footer-actions {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(to top, var(--bg), transparent 100%);
+    padding: 16px 0 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🧭 Copiloto — Canal Dark</h1>
+    <div class="sub">Decisão de nicho + ângulos autênticos baseados na tua história real</div>
+  </div>
+  <a href="index.html">← voltar pro Garimpador</a>
+</header>
+
+<main>
+
+<div class="intro-warning">
+  💡 <b>Como isso funciona:</b> Teu perfil e banco de experiências já estão pré-preenchidos baseado no que sei de ti. Lê, ajusta se precisar, e clica no botão no final pra o copiloto te entregar os nichos certos, ângulos únicos e plano de teste com critério de abandono claro.
+</div>
+
+<!-- ============================================== -->
+<!-- STEP 1: PERFIL -->
+<!-- ============================================== -->
+<section class="step" id="step-profile">
+  <h2><span class="step-num">1</span>Teu Perfil</h2>
+  <p class="lead">Base de quem tu é e o que tu tem pra trabalhar.</p>
+
+  <div class="grid-2">
+    <div class="field">
+      <label>Línguas que tu domina (consegue produzir conteúdo)</label>
+      <div class="chip-row" id="langs">
+        <span class="chip active" data-val="pt">Português</span>
+        <span class="chip" data-val="en">Inglês</span>
+        <span class="chip" data-val="es">Espanhol</span>
+        <span class="chip" data-val="de">Alemão</span>
+        <span class="chip" data-val="fr">Francês</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Horas por semana disponíveis</label>
+      <input type="number" id="hours" value="15" min="1" max="80">
+    </div>
+    <div class="field">
+      <label>Capital disponível (€)</label>
+      <input type="number" id="capital" value="0" min="0">
+    </div>
+    <div class="field">
+      <label>Tolerância à desmonetização</label>
+      <select id="demonetization">
+        <option value="low">Baixa — evitar tópicos sensíveis</option>
+        <option value="medium" selected>Média — aceito risco moderado</option>
+        <option value="high">Alta — não me importo com AdSense</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Ativos que tu já tem</label>
+    <div class="chip-row" id="assets">
+      <span class="chip active" data-val="openai">OpenAI API</span>
+      <span class="chip active" data-val="ig_audience">+500k Instagram (Bíblia Hebraica)</span>
+      <span class="chip active" data-val="hosting">Hospedagem própria (robsonalves.com.br)</span>
+      <span class="chip" data-val="video_software">Software de edição pago</span>
+      <span class="chip" data-val="voice_ai">Voz AI (ElevenLabs/similar)</span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Restrição firme</label>
+    <div class="chip-row" id="constraints">
+      <span class="chip active" data-val="no_face">Nunca aparecer em câmera</span>
+      <span class="chip active" data-val="no_voice_real">Evitar voz real reconhecível</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- STEP 2: BANCO DE EXPERIÊNCIAS -->
+<!-- ============================================== -->
+<section class="step" id="step-bank">
+  <h2><span class="step-num">2</span>Banco de Experiências (combustível invisível)</h2>
+  <p class="lead">Isso NUNCA aparece no vídeo final. É o que o copiloto usa pra gerar ângulos que só tu poderias ter. Podes editar, adicionar ou remover.</p>
+
+  <h3 style="margin-top:20px;font-size:15px;color:var(--accent);">1️⃣ O que eu vivi que poucos viveram</h3>
+  <div id="bank-lived"></div>
+  <button class="secondary" onclick="addExp('bank-lived')">+ adicionar</button>
+
+  <h3 style="margin-top:24px;font-size:15px;color:var(--accent);">2️⃣ Mentiras aceitas que me dão raiva</h3>
+  <div id="bank-lies"></div>
+  <button class="secondary" onclick="addExp('bank-lies')">+ adicionar</button>
+
+  <h3 style="margin-top:24px;font-size:15px;color:var(--accent);">3️⃣ Verdades que aprendi contrariando o óbvio</h3>
+  <div id="bank-inverses"></div>
+  <button class="secondary" onclick="addExp('bank-inverses')">+ adicionar</button>
+</section>
+
+<!-- ============================================== -->
+<!-- STEP 3: CTA -->
+<!-- ============================================== -->
+<section class="step" style="text-align:center;">
+  <h2>Pronto pra gerar teu plano?</h2>
+  <p class="lead">O copiloto vai ranquear os 10 nichos pra ti, gerar 3-5 ângulos autênticos por nicho top, e entregar plano de teste com critério de abandono.</p>
+  <button class="primary" onclick="generate()" id="btn-gen" style="font-size:16px;padding:14px 36px;">🧭 Gerar Plano</button>
+</section>
+
+<!-- ============================================== -->
+<!-- OUTPUT: NICHOS RANKEADOS -->
+<!-- ============================================== -->
+<section class="step hidden" id="step-niches">
+  <h2><span class="step-num">3</span>Teus Nichos — Ranking Personalizado</h2>
+  <p class="lead">Top 5 nichos ordenados pelo fit com teu perfil + estado do mercado hoje. Seleciona 2-3 pra testar em paralelo (Low-Effort Testing).</p>
+  <div id="niches-list"></div>
+  <div style="margin-top:16px;text-align:center;">
+    <button class="primary" onclick="generatePlans()" id="btn-plan">Gerar Plano de Teste dos Selecionados →</button>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- OUTPUT: ÂNGULOS + PLANOS -->
+<!-- ============================================== -->
+<section class="step hidden" id="step-plans">
+  <h2><span class="step-num">4</span>Ângulos Autênticos + Plano de Teste</h2>
+  <p class="lead">Pra cada nicho selecionado: 3 pontos de entrada que só tu poderia ter + primeiro vídeo + kill criteria.</p>
+  <div id="plans-list"></div>
+  <div style="margin-top:20px;text-align:center;">
+    <button class="secondary" onclick="window.print()">🖨 Imprimir plano</button>
+    <button class="secondary" onclick="copyPlansToClipboard()">📋 Copiar plano</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ============================================================
+// DADOS: experiências pré-preenchidas (podem ser editadas)
+// ============================================================
+const SEED_BANK = {
+  lived: [
+    "Passei 15 anos vendendo o sonho das férias e vi a maioria dos clientes parcelarem em 12x pra postar no Instagram. Eles não compravam viagem — compravam a prova social da viagem.",
+    "10 anos em Portugal depois de sair do Brasil com a família. Começar do zero com 40+ significa virar imigrante sem rede, sem histórico, sem garantia.",
+    "+500k seguidores no Instagram construídos em cima de um tema incômodo: crítica ao cristianismo pela Bíblia Hebraica. Audiência que concorda com a maioria é audiência emprestada. Audiência que pensa diferente é audiência tua.",
+    "Vi minha esposa postar meses em 3 canais do YouTube, seguindo todas as receitas de guru, e ter zero view. Ninguém tinha motivo pra aparecer no canal dela.",
+    "Casado, 2 filhas, já tive geladeira vazia. Vendemos móveis pra pagar contas. Mudamos de vida com marketing digital, entrando com a certeza de que era golpe — mas não tínhamos alternativa. Funcionou."
+  ],
+  lies: [
+    "Guru financeiro fala em 'poupar' mas ninguém ataca o inimigo real: performance social. A vida que tu posta, não a que tu vive.",
+    "Cristianismo não interpreta mal o Velho Testamento — simplesmente não acredita nele. E ninguém toca nessa ferida abertamente.",
+    "'Segue o nicho que está bombando' mata mais canais do que cria. Copiar o que funcionou pra outro é garantia matemática de ser invisível."
+  ],
+  inverses: [
+    "Agente de viagens não vende viagem. Vende segurança, qualidade e suporte 24h pra quando tudo dá errado. Quem entende isso entende o setor.",
+    "Faceless sem posicionamento virou cemitério de canais idênticos — é pior que não ter canal.",
+    "Indignação retém mais que curiosidade. Vídeo de 'mistério' gera view. Vídeo de 'mentira que te contaram' gera seguidor."
+  ]
+};
+
+// ============================================================
+// DADOS: metadata dos 10 nichos (expandido)
+// ============================================================
+const NICHES = {
+  financas: {
+    name: "Finanças Pessoais & Renda Extra",
+    emoji: "💰",
+    rpm: 95, affiliate: 95, scale: 85,
+    demonetization_risk: "low",
+    cold_start: "medium",
+    production_difficulty: "medium",
+    time_first_1k: "4-8 semanas",
+    affinity: ["dinheiro", "divida", "renda", "investimento", "poupanca", "performance social", "marketing digital", "golpe", "moveis", "geladeira", "endividar"],
+    example: {
+      channel_pt: "Dinheiro Silencioso", channel_en: "Silent Wealth",
+      format: "narrativa em primeira pessoa anônima + footage stock + música tensa",
+      duration: "10-14 min"
+    }
+  },
+  misterios: {
+    name: "Curiosidades Bizarras & Mistérios",
+    emoji: "🔮",
+    rpm: 55, affiliate: 40, scale: 95,
+    demonetization_risk: "low",
+    cold_start: "easy",
+    production_difficulty: "low",
+    time_first_1k: "2-4 semanas",
+    affinity: ["misterio", "curiosidade", "bizarro", "oculto", "estranho"],
+    example: {
+      channel_pt: "Rastros Estranhos", channel_en: "Strange Traces",
+      format: "narração AI + imagens atmosféricas + cortes rápidos",
+      duration: "8-12 min"
+    }
+  },
+  saude: {
+    name: "Saúde & Longevidade",
+    emoji: "🌱",
+    rpm: 80, affiliate: 85, scale: 75,
+    demonetization_risk: "medium",
+    cold_start: "hard",
+    production_difficulty: "medium",
+    time_first_1k: "8-16 semanas",
+    affinity: ["saude", "longevidade", "sono", "dieta", "envelhecimento"],
+    example: {
+      channel_pt: "Ciclos do Corpo", channel_en: "Body Cycles",
+      format: "documental narrado + infográficos simples",
+      duration: "10-15 min"
+    }
+  },
+  psicologia_social: {
+    name: "Relacionamentos & Psicologia Social",
+    emoji: "🧠",
+    rpm: 50, affiliate: 55, scale: 95,
+    demonetization_risk: "medium",
+    cold_start: "easy",
+    production_difficulty: "low",
+    time_first_1k: "3-6 semanas",
+    affinity: ["psicologia", "relacionamento", "atracao", "comportamento", "linguagem corporal", "manipulacao"],
+    example: {
+      channel_pt: "Observador Silencioso", channel_en: "The Quiet Watcher",
+      format: "narração calma + footage abstrato",
+      duration: "8-12 min"
+    }
+  },
+  motivacao_masculina: {
+    name: "Motivação Masculina & Disciplina",
+    emoji: "⚔️",
+    rpm: 60, affiliate: 70, scale: 90,
+    demonetization_risk: "low",
+    cold_start: "medium",
+    production_difficulty: "low",
+    time_first_1k: "4-8 semanas",
+    affinity: ["disciplina", "rotina", "foco", "estoicismo", "masculino", "mentalidade"],
+    example: {
+      channel_pt: "Ferro Silencioso", channel_en: "Silent Iron",
+      format: "narração tensa + cortes escuros + música épica",
+      duration: "8-12 min"
+    }
+  },
+  luxo: {
+    name: "Luxo & Vida de Milionários",
+    emoji: "💎",
+    rpm: 75, affiliate: 60, scale: 80,
+    demonetization_risk: "low",
+    cold_start: "medium",
+    production_difficulty: "medium",
+    time_first_1k: "4-8 semanas",
+    affinity: ["luxo", "milionario", "bilionario", "mansao", "carro", "habito rico"],
+    example: {
+      channel_pt: "Códigos do Topo", channel_en: "Top Codes",
+      format: "narração investigativa + imagens de high-end",
+      duration: "10-14 min"
+    }
+  },
+  historia: {
+    name: "História Resumida",
+    emoji: "📜",
+    rpm: 50, affiliate: 35, scale: 80,
+    demonetization_risk: "low",
+    cold_start: "medium",
+    production_difficulty: "medium",
+    time_first_1k: "4-10 semanas",
+    affinity: ["historia", "guerra", "imperio", "batalha", "antigo", "biblia hebraica", "tora", "judaismo", "velho testamento"],
+    example: {
+      channel_pt: "Linha Quebrada", channel_en: "Broken Line",
+      format: "narração grave + mapas animados + footage histórico",
+      duration: "10-16 min"
+    }
+  },
+  ia_tech: {
+    name: "IA & Tecnologia Prática",
+    emoji: "🤖",
+    rpm: 85, affiliate: 95, scale: 70,
+    demonetization_risk: "low",
+    cold_start: "hard",
+    production_difficulty: "low",
+    time_first_1k: "6-12 semanas",
+    affinity: ["ia", "automacao", "chatgpt", "claude", "produtividade", "ferramenta"],
+    example: {
+      channel_pt: "Caixa de Ferramentas", channel_en: "Toolbox AI",
+      format: "screen recording + narração clara",
+      duration: "6-10 min"
+    }
+  },
+  true_crime: {
+    name: "True Crime",
+    emoji: "🔪",
+    rpm: 55, affiliate: 30, scale: 85,
+    demonetization_risk: "medium",
+    cold_start: "medium",
+    production_difficulty: "medium",
+    time_first_1k: "3-6 semanas",
+    affinity: ["crime", "assassinato", "desaparecido", "investigacao", "caso"],
+    example: {
+      channel_pt: "Rastros de Sangue", channel_en: "Cold Trails",
+      format: "narração investigativa + footage noir",
+      duration: "14-20 min"
+    }
+  },
+  espiritualidade: {
+    name: "Espiritualidade & Filosofia",
+    emoji: "☯️",
+    rpm: 45, affiliate: 50, scale: 85,
+    demonetization_risk: "low",
+    cold_start: "medium",
+    production_difficulty: "low",
+    time_first_1k: "4-10 semanas",
+    affinity: ["espiritualidade", "filosofia", "estoicismo", "simbolismo", "biblia hebraica", "tora", "cristianismo", "religiao", "velho testamento"],
+    example: {
+      channel_pt: "Camadas Ocultas", channel_en: "Hidden Layers",
+      format: "narração contemplativa + símbolos + texturas antigas",
+      duration: "10-14 min"
+    }
+  }
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
+function $(id) { return document.getElementById(id); }
+
+function setupChips(containerId) {
+  $(containerId).querySelectorAll('.chip').forEach(chip => {
+    chip.onclick = () => chip.classList.toggle('active');
+  });
+}
+
+function getActiveChips(containerId) {
+  return Array.from($(containerId).querySelectorAll('.chip.active')).map(c => c.dataset.val);
+}
+
+function addExp(containerId, text = '', gold = false) {
+  const container = $(containerId);
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  const index = document.querySelectorAll('.exp-item').length;
+  const letter = letters[index] || '*';
+  const div = document.createElement('div');
+  div.className = 'exp-item' + (gold ? ' gold' : '');
+  div.innerHTML = `
+    <span class="letter">${letter}</span>
+    <textarea rows="2">${text.replace(/"/g, '&quot;')}</textarea>
+    <button class="del" onclick="this.parentElement.remove()" title="remover">×</button>
+  `;
+  container.appendChild(div);
+  // Auto-resize
+  const ta = div.querySelector('textarea');
+  ta.style.height = 'auto';
+  ta.style.height = (ta.scrollHeight) + 'px';
+  ta.addEventListener('input', () => {
+    ta.style.height = 'auto';
+    ta.style.height = (ta.scrollHeight) + 'px';
+  });
+}
+
+function collectBank() {
+  return {
+    lived: Array.from($('bank-lived').querySelectorAll('textarea')).map(t => t.value.trim()).filter(Boolean),
+    lies: Array.from($('bank-lies').querySelectorAll('textarea')).map(t => t.value.trim()).filter(Boolean),
+    inverses: Array.from($('bank-inverses').querySelectorAll('textarea')).map(t => t.value.trim()).filter(Boolean),
+  };
+}
+
+function collectProfile() {
+  return {
+    langs: getActiveChips('langs'),
+    hours: +$('hours').value || 0,
+    capital: +$('capital').value || 0,
+    demonetization: $('demonetization').value,
+    assets: getActiveChips('assets'),
+    constraints: getActiveChips('constraints'),
+  };
+}
+
+// Normaliza texto pra matching keyword (sem acentos, lowercase)
+function norm(s) {
+  return (s || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// ============================================================
+// NICHE SCORER
+// ============================================================
+function scoreNiches(profile, bank) {
+  // Junta todo texto do banco pra procurar afinidades temáticas
+  const allBankText = norm([...bank.lived, ...bank.lies, ...bank.inverses].join(' '));
+
+  const scored = Object.entries(NICHES).map(([key, n]) => {
+    // 1. Afinidade com banco de experiências (0-40)
+    const matches = n.affinity.filter(k => allBankText.includes(norm(k))).length;
+    const affinity = Math.min(40, matches * 8);
+
+    // 2. Qualidade bruta do nicho (RPM + afiliado + escala) — 0-25
+    const quality = (n.rpm * 0.4 + n.affiliate * 0.35 + n.scale * 0.25) / 4;
+
+    // 3. Cold-start fit com horas disponíveis (0-15)
+    let coldStartFit = 0;
+    if (n.cold_start === 'easy') coldStartFit = 15;
+    else if (n.cold_start === 'medium') coldStartFit = profile.hours >= 10 ? 12 : 6;
+    else coldStartFit = profile.hours >= 20 ? 8 : 2;
+
+    // 4. Risco de desmonetização vs tolerância (0-10)
+    let demonScore = 0;
+    if (n.demonetization_risk === 'low') demonScore = 10;
+    else if (n.demonetization_risk === 'medium') {
+      demonScore = profile.demonetization === 'low' ? 3 : 8;
+    } else {
+      demonScore = profile.demonetization === 'high' ? 6 : 1;
+    }
+
+    // 5. Produção vs capital (0-10)
+    let prodScore = 10;
+    if (n.production_difficulty === 'high') {
+      prodScore = profile.capital >= 200 ? 10 : 4;
+    } else if (n.production_difficulty === 'medium') {
+      prodScore = profile.capital >= 50 ? 10 : 7;
+    }
+
+    const total = affinity + quality + coldStartFit + demonScore + prodScore;
+
+    // Monta o "why" de forma textual
+    const reasons = [];
+    if (matches >= 3) reasons.push(`forte alinhamento com teu banco (${matches} conexões)`);
+    else if (matches >= 1) reasons.push(`alinhamento parcial com teu banco (${matches} conexões)`);
+    else reasons.push(`sem conexão direta com teu banco — risco alto`);
+
+    if (n.demonetization_risk === 'low') reasons.push(`baixo risco de desmonetização`);
+    else if (n.demonetization_risk === 'medium') reasons.push(`risco médio de desmonetização`);
+
+    if (n.cold_start === 'easy') reasons.push(`cold-start fácil (cresce rápido)`);
+    else if (n.cold_start === 'hard') reasons.push(`cold-start difícil`);
+
+    return { key, ...n, score: Math.round(total), affinity_matches: matches, reasons };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored;
+}
+
+// ============================================================
+// RENDER NICHOS
+// ============================================================
+function renderNiches(niches) {
+  const top5 = niches.slice(0, 5);
+  const html = top5.map((n, i) => {
+    const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+    const demonClass = n.demonetization_risk === 'low' ? 'good' : n.demonetization_risk === 'high' ? 'bad' : 'warn';
+    const coldClass = n.cold_start === 'easy' ? 'good' : n.cold_start === 'hard' ? 'warn' : '';
+    return `
+      <div class="niche-card">
+        <h3>
+          <span class="niche-rank ${rankClass}">#${i + 1}</span>
+          ${n.emoji} ${n.name}
+          <span style="float:right; font-size:14px; color:var(--text-dim);">Score: <b style="color:var(--accent);">${n.score}</b></span>
+        </h3>
+        <div class="stat-row">
+          <span class="stat ${demonClass}">Demonetização: <b>${n.demonetization_risk}</b></span>
+          <span class="stat ${coldClass}">Cold-start: <b>${n.cold_start}</b></span>
+          <span class="stat">Produção: <b>${n.production_difficulty}</b></span>
+          <span class="stat">1k views em: <b>${n.time_first_1k}</b></span>
+          <span class="stat">RPM: <b>${n.rpm}/100</b></span>
+        </div>
+        <div class="why"><b>Por quê:</b> ${n.reasons.join('; ')}</div>
+        <div style="margin-top:10px;">
+          <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; color:var(--text);">
+            <input type="checkbox" class="niche-select" data-key="${n.key}" ${i < 3 ? 'checked' : ''}>
+            Selecionar pra teste
+          </label>
+        </div>
+      </div>
+    `;
+  }).join('');
+  $('niches-list').innerHTML = html;
+  $('step-niches').classList.remove('hidden');
+  $('step-niches').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ============================================================
+// ANGLE GENERATOR — cruza nicho com banco de experiências
+// ============================================================
+function generateAngles(niche, bank) {
+  const angles = [];
+  const nicheText = norm(niche.affinity.join(' ') + ' ' + niche.name);
+
+  // Prioriza experiências vividas (lived) que tenham match temático
+  const relevantLived = bank.lived.filter(exp => {
+    const e = norm(exp);
+    return niche.affinity.some(k => e.includes(norm(k)));
+  });
+  const relevantLies = bank.lies.filter(exp => {
+    const e = norm(exp);
+    return niche.affinity.some(k => e.includes(norm(k)));
+  });
+  const relevantInverses = bank.inverses.filter(exp => {
+    const e = norm(exp);
+    return niche.affinity.some(k => e.includes(norm(k)));
+  });
+
+  // Fallback: se não tem match temático, usa quaisquer 1-2 experiências gerais
+  const fallbackLived = relevantLived.length ? relevantLived : bank.lived.slice(0, 2);
+  const fallbackLies = relevantLies.length ? relevantLies : bank.lies.slice(0, 1);
+  const fallbackInverses = relevantInverses.length ? relevantInverses : bank.inverses.slice(0, 1);
+
+  // Gera 3 tipos de ângulo: Contradição Vivida, Mentira Atacada, Verdade Inversa
+  if (fallbackLived.length > 0) {
+    angles.push({
+      type: "Contradição Vivida",
+      tag: "EXPERIÊNCIA REAL",
+      hook: extractHook(fallbackLived[0], niche),
+      source: `derivado de: "${truncate(fallbackLived[0], 100)}"`
+    });
+  }
+  if (fallbackLived.length > 1) {
+    angles.push({
+      type: "Segunda Contradição",
+      tag: "EXPERIÊNCIA REAL",
+      hook: extractHook(fallbackLived[1], niche),
+      source: `derivado de: "${truncate(fallbackLived[1], 100)}"`
+    });
+  }
+  if (fallbackLies.length > 0) {
+    angles.push({
+      type: "Mentira Aceita",
+      tag: "ATAQUE FRONTAL",
+      hook: extractLieAttack(fallbackLies[0], niche),
+      source: `derivado de: "${truncate(fallbackLies[0], 100)}"`
+    });
+  }
+  if (fallbackInverses.length > 0) {
+    angles.push({
+      type: "Verdade Inversa",
+      tag: "REVELAÇÃO TÉCNICA",
+      hook: extractInverse(fallbackInverses[0], niche),
+      source: `derivado de: "${truncate(fallbackInverses[0], 100)}"`
+    });
+  }
+
+  return angles.slice(0, 4);
+}
+
+function truncate(s, n) {
+  return s.length > n ? s.substring(0, n) + '...' : s;
+}
+
+// Heurísticas simples pra extrair "pontos de entrada" — em produção ideal seria GPT, mas funcional sem
+function extractHook(livedExp, niche) {
+  // Identifica pronome/primeira pessoa e reformula pra narrativa anônima
+  const base = livedExp.replace(/^(passei|vi|construí|10 anos|casado|\+?500k)/i, 'Durante anos');
+  const prefix = `Durante ${niche.name.toLowerCase().includes('finança') ? '15 anos vi de perto' : 'muito tempo observei'}:`;
+
+  // Cria título tipo gancho
+  const hooks = {
+    financas: [
+      `A maioria das pessoas que se endivida não perdeu dinheiro — perdeu o controle da versão de si mesma que precisa manter no Instagram`,
+      `Eu achei que era golpe e foi a única coisa que funcionou — por que instinto de sobrevivência financeira mente pra ti`,
+      `Vender móveis pra pagar conta me ensinou o que 10 anos de conselho financeiro não ensinaram`
+    ],
+    misterios: [
+      `O que ninguém te conta sobre o que parece curioso e não é`,
+      `Uma observação quieta de 15 anos num setor invisível`,
+    ],
+    historia: [
+      `A versão que ninguém ensina — e por que foi escondida`,
+      `Um erro histórico tão óbvio que virou verdade`,
+    ],
+    espiritualidade: [
+      `Um incômodo que viveu 10 anos dentro de mim antes de virar pergunta pública`,
+      `A ferida aberta que nenhuma religião aceita discutir`,
+    ],
+    psicologia_social: [
+      `O que 15 anos vendendo sonho me ensinou sobre como as pessoas mentem pra si mesmas`,
+      `Uma frase simples que previne 80% das decisões ruins`,
+    ],
+    motivacao_masculina: [
+      `Quando a geladeira vazia te ensina mais que 100 livros de mindset`,
+      `A disciplina que nasce do medo é a única que sobrevive`,
+    ],
+    luxo: [
+      `O padrão invisível que separa quem tem dinheiro de quem aparenta ter`,
+      `Luxo não é o que tu compra — é o que tu não precisa provar`,
+    ],
+    ia_tech: [
+      `A ferramenta de IA que tirou uma família do vermelho em 6 meses`,
+      `Por que quem acha golpe é quem mais precisa testar`,
+    ],
+    true_crime: [
+      `O padrão silencioso que antecede cada desaparecimento — ninguém quer admitir`,
+      `Um caso que ninguém cobriu porque a verdade acusava a família`,
+    ]
+  };
+
+  const pool = hooks[niche.key] || hooks.financas;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function extractLieAttack(lie, niche) {
+  const attacks = {
+    financas: `A maior mentira do conselho financeiro atual: "basta poupar". O inimigo não está na tua conta, está na tua vitrine digital.`,
+    espiritualidade: `O que o cristianismo nunca admitiu sobre o Velho Testamento — e por que fingem que é só "interpretação".`,
+    historia: `A mentira aceita que está em todo livro didático — e quem se beneficia dela hoje.`,
+    psicologia_social: `O mito da "confiança" — o que realmente seduz não é o que os gurus de sedução ensinam.`,
+    motivacao_masculina: `A motivação que todo guru vende é placebo. Disciplina real é filha de uma coisa só: urgência real.`,
+    luxo: `Milionário de Instagram vs. milionário de verdade — só 1 deles consegue dormir.`,
+    ia_tech: `"IA vai te substituir" é distração. A ameaça real é outra — e ninguém fala.`,
+    misterios: `O mistério que não é mistério — só convém que continue sendo chamado assim.`,
+    saude: `A indústria de suplementos e o conflito de interesses que os médicos de YouTube nunca admitem.`,
+    true_crime: `O padrão que a mídia de true crime esconde — porque não rende clique.`,
+  };
+  return attacks[niche.key] || `A mentira aceita neste setor — e quem ganha com ela.`;
+}
+
+function extractInverse(inverse, niche) {
+  const inverses = {
+    financas: `Por que parcelar NÃO é o problema — o problema é o que tu está financiando com essa parcela.`,
+    psicologia_social: `Quem "vende" menos, fecha mais. O princípio que nenhum curso de vendas ensina.`,
+    motivacao_masculina: `Rotina matinal não cria disciplina. Ela é sintoma de disciplina que já existia.`,
+    ia_tech: `Ferramenta de IA não te faz produtivo — ela amplifica um vácuo de critério.`,
+    historia: `Impérios não caíram de fora — caíram de dentro. E o mesmo padrão está acontecendo hoje.`,
+    espiritualidade: `Buscar sentido NÃO é buscar conforto. Quem confunde os dois nunca encontra nenhum.`,
+    misterios: `O mistério não é o fenômeno — é a razão pela qual ele foi transformado em mistério.`,
+    luxo: `Dinheiro não compra liberdade. Compra distância. É diferente.`,
+    saude: `Dormir não é descanso — é construção. Quem dorme pouco não está "produzindo mais", está cobrando juros do corpo.`,
+    true_crime: `A maioria dos casos "insolúveis" é solúvel — só não convém politicamente resolver.`,
+  };
+  return inverses[niche.key] || `A verdade inversa deste nicho — só quem vive entende.`;
+}
+
+// ============================================================
+// TEST PLAN GENERATOR
+// ============================================================
+function generateTestPlan(niche, angles, profile) {
+  const primaryLang = profile.langs.includes('pt') ? 'pt' : profile.langs[0] || 'en';
+  const channelName = primaryLang === 'pt' ? niche.example.channel_pt : niche.example.channel_en;
+
+  const angle = angles[0] || { hook: niche.example.format };
+  const firstVideoTitle = truncateTitle(angle.hook);
+
+  return {
+    niche,
+    channel_name: channelName,
+    primary_lang: primaryLang,
+    first_video: {
+      title: firstVideoTitle,
+      angle_type: angle.type || "Contradição Vivida",
+      format: niche.example.format,
+      duration: niche.example.duration,
+      thumbnail_idea: generateThumbIdea(niche, angle)
+    },
+    production_plan: {
+      roteiro: `~${Math.ceil(parseInt(niche.example.duration) * 150)} palavras. Primeira pessoa anônima, sem nome, sem rosto. Detalhe específico nos primeiros 10s.`,
+      voz: profile.assets.includes('voice_ai') ? "Voz AI com tom próprio (nunca voz livre do YouTube)" : "ElevenLabs trial ou Speechify — escolher 1 voz e nunca mudar",
+      visuais: "stock footage temático + B-roll + transições sóbrias. Zero avatar humanoide.",
+      tempo_estimado: estimateProductionTime(niche, profile)
+    },
+    kill_criteria: {
+      days: 14,
+      fail: 200,
+      consider: "200-1000",
+      pass: 1000,
+      double_down: 5000
+    }
+  };
+}
+
+function truncateTitle(s) {
+  if (s.length <= 70) return s;
+  return s.substring(0, 67) + '...';
+}
+
+function generateThumbIdea(niche, angle) {
+  const ideas = {
+    financas: "silhueta de pessoa quebrando espelho com notas saindo + texto 3 palavras alto contraste",
+    misterios: "objeto misterioso isolado em fundo escuro + texto interrogativo amarelo",
+    historia: "personagem histórico de perfil + texto dramático em serif",
+    espiritualidade: "símbolo antigo com rachadura + texto curto dourado",
+    psicologia_social: "2 faces (uma clara, uma borrada) + seta vermelha",
+    motivacao_masculina: "silhueta em contra-luz + texto branco marmore",
+    luxo: "objeto caro cortado ao meio + texto sem serifa em dourado",
+    ia_tech: "interface de ferramenta em destaque + texto-resultado grande",
+    true_crime: "foto borrada estilo polaroid + texto vermelho estampado",
+    saude: "objeto cotidiano + anatomia simplificada + texto 3 palavras",
+  };
+  return ideas[niche.key] || "foco visual único + texto 3 palavras em alto contraste";
+}
+
+function estimateProductionTime(niche, profile) {
+  const base = {
+    low: 4, medium: 6, high: 10
+  }[niche.production_difficulty] || 6;
+  return `${base}-${base + 2}h do zero até publicado`;
+}
+
+// ============================================================
+// RENDER PLANOS
+// ============================================================
+function renderPlans(plans) {
+  const html = plans.map((p, i) => {
+    const anglesHtml = p.angles.map(a => `
+      <div class="angle-card">
+        <span class="tag">${a.tag}</span>
+        <h4>${a.hook}</h4>
+        <div class="source">${a.source}</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="plan-card">
+        <h4>${p.niche.emoji} Teste #${i+1}: ${p.niche.name}</h4>
+
+        <h5 style="color:var(--gold); font-size:13px; margin:14px 0 8px;">🎯 Pontos de Entrada Autênticos</h5>
+        ${anglesHtml}
+
+        <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">📺 Canal de Teste</h5>
+        <dl>
+          <dt>Nome sugerido:</dt><dd><b>${p.channel_name}</b></dd>
+          <dt>Idioma:</dt><dd>${p.primary_lang.toUpperCase()}</dd>
+          <dt>Formato:</dt><dd>${p.first_video.format}</dd>
+        </dl>
+
+        <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">🎬 Primeiro Vídeo (teste)</h5>
+        <dl>
+          <dt>Título:</dt><dd>${p.first_video.title}</dd>
+          <dt>Ângulo:</dt><dd>${p.first_video.angle_type}</dd>
+          <dt>Duração:</dt><dd>${p.first_video.duration}</dd>
+          <dt>Thumb:</dt><dd>${p.first_video.thumbnail_idea}</dd>
+        </dl>
+
+        <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">🔧 Plano de Produção</h5>
+        <dl>
+          <dt>Roteiro:</dt><dd>${p.production_plan.roteiro}</dd>
+          <dt>Voz:</dt><dd>${p.production_plan.voz}</dd>
+          <dt>Visuais:</dt><dd>${p.production_plan.visuais}</dd>
+          <dt>Tempo:</dt><dd>${p.production_plan.tempo_estimado}</dd>
+        </dl>
+
+        <div class="kill">
+          <b>🛑 CRITÉRIO DE ABANDONO (${p.kill_criteria.days} dias após publicação):</b><br>
+          • <b>< ${p.kill_criteria.fail} views</b> → descarta nicho (não insiste)<br>
+          • <b>${p.kill_criteria.consider} views</b> → faz 2º teste com ângulo diferente<br>
+          • <b>> ${p.kill_criteria.pass} views</b> → vira candidato prioritário, produz +3 vídeos<br>
+          • <b>> ${p.kill_criteria.double_down} views</b> → jackpot: investe pesado nesse nicho
+        </div>
+      </div>
+    `;
+  }).join('');
+  $('plans-list').innerHTML = html;
+  $('step-plans').classList.remove('hidden');
+  $('step-plans').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyPlansToClipboard() {
+  const txt = $('plans-list').innerText;
+  navigator.clipboard.writeText(txt);
+  alert('Plano copiado! Cola no Notion, Google Docs, ou pra onde tu preferir.');
+}
+
+// ============================================================
+// FLUXO PRINCIPAL
+// ============================================================
+let LAST_NICHES = null;
+let LAST_BANK = null;
+
+function generate() {
+  const profile = collectProfile();
+  const bank = collectBank();
+  if (bank.lived.length === 0 && bank.lies.length === 0 && bank.inverses.length === 0) {
+    alert('Teu banco de experiências está vazio. Preenche pelo menos 1-2 itens pra gerar ângulos autênticos.');
+    return;
+  }
+  LAST_NICHES = scoreNiches(profile, bank);
+  LAST_BANK = bank;
+  renderNiches(LAST_NICHES);
+}
+
+function generatePlans() {
+  const selected = Array.from(document.querySelectorAll('.niche-select:checked')).map(el => el.dataset.key);
+  if (selected.length === 0) {
+    alert('Seleciona pelo menos 1 nicho.');
+    return;
+  }
+  if (selected.length > 3) {
+    alert('Seleciona no máximo 3 nichos (mais que isso é impossível de testar em paralelo).');
+    return;
+  }
+  const plans = selected.map(key => {
+    const niche = LAST_NICHES.find(n => n.key === key);
+    const angles = generateAngles(niche, LAST_BANK);
+    return { ...generateTestPlan(niche, angles, collectProfile()), angles };
+  });
+  renderPlans(plans);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+setupChips('langs');
+setupChips('assets');
+setupChips('constraints');
+
+// Seed banco com dados pré-preenchidos
+SEED_BANK.lived.forEach(e => addExp('bank-lived', e, e.includes('geladeira')));
+SEED_BANK.lies.forEach(e => addExp('bank-lies', e));
+SEED_BANK.inverses.forEach(e => addExp('bank-inverses', e));
+</script>
+</body>
+</html>
