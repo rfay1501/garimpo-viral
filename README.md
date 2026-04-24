@@ -1,6 +1,8 @@
 # Garimpo Viral
 
-Ferramenta de garimpagem de vídeos virais recentes no YouTube, focada em canais *dark* (faceless) — **sem usar a API oficial do YouTube**.
+Ferramenta de garimpagem de vídeos virais recentes no YouTube em canais *dark* (faceless) — **sem usar a API oficial do YouTube**.
+
+**Dashboard ao vivo:** https://rfay1501.github.io/garimpo-viral/
 
 ## Como funciona
 
@@ -11,29 +13,52 @@ Ferramenta de garimpagem de vídeos virais recentes no YouTube, focada em canais
 5. **Score** — cada vídeo recebe nota 0–100 combinando:
    - Velocidade de views (views/dia)
    - Qualidade do nicho (RPM + afiliado + escalabilidade)
-   - Ineditismo do canal (heurística faceless)
+   - Heurística faceless no nome do canal
 6. **Saída** — JSON em `data/results.json` + `docs/results.json` (pra GitHub Pages).
 7. **Dashboard** — `docs/index.html` com filtros por nicho, idioma, faceless, score, busca textual.
 
-## Rodar localmente
+## Automação: **cron local (launchd) no Mac**
+
+⚠ **Importante:** o YouTube bloqueia IPs de data center (GitHub Actions, AWS, etc.), então o scraper roda **localmente no Mac do usuário** via `launchd`. O IP residencial do usuário não é bloqueado.
+
+### Instalar o cron (roda a cada 6h)
 
 ```bash
-# 1. Instalar dependências
-pip install -r requirements.txt
-
-# 2. Rodada rápida (1 nicho, 1 idioma) pra validar
-python src/scraper.py --test
-
-# 3. Rodada completa (10 nichos × 3 idiomas)
-python src/scraper.py
-
-# 4. Abrir dashboard
-open docs/index.html
+bash scripts/install-cron.sh
 ```
 
-## Automação
+Depois disso, o scraper roda automaticamente a cada 6h enquanto o Mac estiver ligado, faz commit dos resultados e dá push pro GitHub. O dashboard no GitHub Pages é atualizado automaticamente.
 
-GitHub Actions roda o scraper a cada **6 horas** (`.github/workflows/scrape.yml`) e faz commit do `results.json` atualizado no repositório. O dashboard no GitHub Pages lê esse JSON e se atualiza automaticamente.
+### Comandos úteis
+
+```bash
+# Ver execução em tempo real
+tail -f /tmp/garimpo-viral.log
+
+# Rodar agora (sem esperar 6h)
+bash scripts/run-and-push.sh
+
+# Confirmar que está carregado
+launchctl list | grep garimpo
+
+# Desinstalar
+bash scripts/install-cron.sh off
+```
+
+## Rodar manualmente
+
+```bash
+pip install -r requirements.txt
+
+# Rodada rápida (1 nicho, 1 idioma) pra testar
+python src/scraper.py --test
+
+# Rodada completa (10 nichos × 3 idiomas, ~30-40 min)
+python src/scraper.py
+
+# Abrir dashboard local
+open docs/index.html
+```
 
 ## Estrutura
 
@@ -42,21 +67,25 @@ garimpo-viral/
 ├── src/
 │   ├── niches.py       # 10 nichos × 3 idiomas × queries
 │   ├── scoring.py      # sistema de score
-│   └── scraper.py      # motor principal
+│   └── scraper.py      # motor principal (yt-dlp)
 ├── data/
-│   └── results.json    # saída (gerada)
+│   └── results.json    # saída canônica
 ├── docs/               # GitHub Pages root
 │   ├── index.html      # dashboard
 │   └── results.json    # espelho do data/
+├── scripts/
+│   ├── install-cron.sh                       # instalador do launchd
+│   ├── run-and-push.sh                       # scraper + git push
+│   └── com.robsonalves.garimpo-viral.plist   # job launchd (6h)
 └── .github/workflows/
-    └── scrape.yml      # cron 6h
+    └── scrape.yml      # fallback GH Actions (bloqueado por YT)
 ```
 
 ## Roadmap
 
-- **Fase 2:** adicionar Alemão e Francês; detecção faceless via visão computacional nas thumbnails; idade real do canal via fetch do `/about`.
-- **Fase 3:** Árabe, Japonês; analytics de tendência (qual nicho/idioma está subindo); alertas por e-mail quando score > 85.
+- **Fase 2:** Alemão e Francês; detecção faceless via visão computacional nas thumbnails; idade real do canal via `/about` page.
+- **Fase 3:** Árabe, Japonês; alertas por e-mail quando score > 85; trend detection por nicho/idioma.
 
 ## Disclaimer
 
-Esta ferramenta usa `yt-dlp` pra extrair dados **públicos** do YouTube. Respeita os termos de uso: não faz download de vídeos, só lê metadados que qualquer visitante do site pode ver.
+Esta ferramenta usa `yt-dlp` pra extrair dados **públicos** do YouTube (só leitura de metadados que qualquer visitante vê). Não faz download de vídeos.
