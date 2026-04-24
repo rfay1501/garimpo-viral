@@ -48,7 +48,16 @@ if not os.path.exists(YTDLP):
 
 def _run_ytdlp(args: list[str], timeout: int = YTDLP_TIMEOUT) -> str:
     """Roda yt-dlp com args extras. Retorna stdout ou string vazia em erro."""
-    cmd = [YTDLP, "--no-warnings", "--ignore-errors"] + args
+    # User-agent real + tv_embedded client ajuda a contornar bloqueio de IP em GH Actions
+    base_args = [
+        "--no-warnings",
+        "--ignore-errors",
+        "--user-agent",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "--extractor-args", "youtube:player_client=tv_embedded,web",
+    ]
+    cmd = [YTDLP] + base_args + args
     try:
         r = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout, check=False
