@@ -282,6 +282,64 @@
     justify-content: center;
   }
   .hidden { display: none !important; }
+
+  .lang-tabs {
+    display: flex;
+    gap: 4px;
+    margin: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lang-tab {
+    padding: 6px 14px;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .lang-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .lang-tab:hover { color: var(--text); }
+  .lang-tab.loading { color: var(--warn); }
+
+  .script-output {
+    background: rgba(57,217,138,0.04);
+    border: 1px solid rgba(57,217,138,0.25);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    font-family: 'SF Mono', Menlo, monospace;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  .script-output h3, .script-output h4 {
+    color: var(--accent-2);
+    margin: 14px 0 6px;
+    font-family: -apple-system, sans-serif;
+  }
+  .generating {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .generating::after {
+    content: '…';
+    animation: dots 1.5s steps(4) infinite;
+  }
+  @keyframes dots {
+    0%, 33% { content: ''; }
+    50% { content: '.'; }
+    66% { content: '..'; }
+    100% { content: '...'; }
+  }
 </style>
 </head>
 <body>
@@ -353,6 +411,15 @@
       <span class="chip active" data-val="no_face">Nunca aparecer em câmera</span>
       <span class="chip active" data-val="no_voice_real">Evitar voz real reconhecível</span>
     </div>
+  </div>
+
+  <div class="field" style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">
+    <label>🔑 OpenAI API Key <span style="font-size:11px;color:var(--text-dim);">(opcional — ativa multi-idioma e roteiro completo. Fica salva só no teu navegador.)</span></label>
+    <div style="display:flex; gap:8px;">
+      <input type="password" id="openai-key" placeholder="sk-proj-..." style="flex:1;">
+      <button class="secondary" onclick="saveOpenAIKey()" style="white-space:nowrap;">💾 Salvar</button>
+    </div>
+    <div id="key-status" style="font-size:11px;color:var(--text-dim);margin-top:6px;"></div>
   </div>
 </section>
 
@@ -968,61 +1035,309 @@ function estimateProductionTime(niche, profile) {
 }
 
 // ============================================================
-// RENDER PLANOS
+// RENDER PLANOS (com tabs de idioma)
 // ============================================================
+let PLANS_STATE = [];  // estado global dos planos (cada um com idiomas variantes)
+
+const LANG_NAMES = { pt: 'Português', en: 'English', es: 'Español', de: 'Deutsch', fr: 'Français' };
+
 function renderPlans(plans) {
-  const html = plans.map((p, i) => {
-    const anglesHtml = p.angles.map(a => `
-      <div class="angle-card">
-        <span class="tag">${a.tag}</span>
-        <h4>${a.hook}</h4>
-        <div class="source">${a.source}</div>
-      </div>
-    `).join('');
-
-    return `
-      <div class="plan-card">
-        <h4>${p.niche.emoji} Teste #${i+1}: ${p.niche.name}</h4>
-
-        <h5 style="color:var(--gold); font-size:13px; margin:14px 0 8px;">🎯 Pontos de Entrada Autênticos</h5>
-        ${anglesHtml}
-
-        <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">📺 Canal de Teste</h5>
-        <dl>
-          <dt>Nome sugerido:</dt><dd><b>${p.channel_name}</b></dd>
-          <dt>Idioma:</dt><dd>${p.primary_lang.toUpperCase()}</dd>
-          <dt>Formato:</dt><dd>${p.first_video.format}</dd>
-        </dl>
-
-        <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">🎬 Primeiro Vídeo (teste)</h5>
-        <dl>
-          <dt>Título:</dt><dd>${p.first_video.title}</dd>
-          <dt>Ângulo:</dt><dd>${p.first_video.angle_type}</dd>
-          <dt>Duração:</dt><dd>${p.first_video.duration}</dd>
-          <dt>Thumb:</dt><dd>${p.first_video.thumbnail_idea}</dd>
-        </dl>
-
-        <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">🔧 Plano de Produção</h5>
-        <dl>
-          <dt>Roteiro:</dt><dd>${p.production_plan.roteiro}</dd>
-          <dt>Voz:</dt><dd>${p.production_plan.voz}</dd>
-          <dt>Visuais:</dt><dd>${p.production_plan.visuais}</dd>
-          <dt>Tempo:</dt><dd>${p.production_plan.tempo_estimado}</dd>
-        </dl>
-
-        <div class="kill">
-          <b>🛑 CRITÉRIO DE ABANDONO (${p.kill_criteria.days} dias após publicação):</b><br>
-          • <b>< ${p.kill_criteria.fail} views</b> → descarta nicho (não insiste)<br>
-          • <b>${p.kill_criteria.consider} views</b> → faz 2º teste com ângulo diferente<br>
-          • <b>> ${p.kill_criteria.pass} views</b> → vira candidato prioritário, produz +3 vídeos<br>
-          • <b>> ${p.kill_criteria.double_down} views</b> → jackpot: investe pesado nesse nicho
-        </div>
-      </div>
-    `;
-  }).join('');
-  $('plans-list').innerHTML = html;
+  PLANS_STATE = plans.map(p => ({
+    ...p,
+    variants: { [p.primary_lang]: { title: p.first_video.title, angles: p.angles, channel_name: p.channel_name, thumbnail_idea: p.first_video.thumbnail_idea } },
+    active_lang: p.primary_lang,
+    script: null,
+  }));
+  rerenderPlans();
   $('step-plans').classList.remove('hidden');
   $('step-plans').scrollIntoView({ behavior: 'smooth' });
+}
+
+function rerenderPlans() {
+  const profile = collectProfile();
+  const html = PLANS_STATE.map((p, i) => renderPlanCard(p, i, profile)).join('');
+  $('plans-list').innerHTML = html;
+}
+
+function renderPlanCard(p, i, profile) {
+  const variant = p.variants[p.active_lang];
+  const anglesHtml = variant.angles.map(a => `
+    <div class="angle-card">
+      <span class="tag">${a.tag}</span>
+      <h4>${a.hook}</h4>
+      <div class="source">${a.source}</div>
+    </div>
+  `).join('');
+
+  // Tabs de idioma (mostra todos os langs configurados no perfil)
+  const langsHtml = profile.langs.map(lang => {
+    const cls = 'lang-tab' + (lang === p.active_lang ? ' active' : '');
+    return `<button class="${cls}" onclick="switchPlanLang(${i}, '${lang}')">${LANG_NAMES[lang] || lang.toUpperCase()}</button>`;
+  }).join('');
+
+  const hasKey = !!localStorage.getItem('openai_key');
+  const scriptSection = p.script
+    ? `<div class="script-output">${p.script}</div>
+       <button class="secondary" onclick="copyScript(${i})" style="margin-top:8px;">📋 Copiar roteiro</button>`
+    : p.script === 'loading'
+      ? `<div class="generating">Gerando roteiro completo</div>`
+      : `<button class="primary" onclick="generateFullScript(${i})" ${hasKey ? '' : 'disabled title="Configura tua OpenAI API key na seção 1 primeiro"'}>🪶 Gerar Roteiro Completo ${hasKey ? '' : '(precisa de API key)'}</button>`;
+
+  return `
+    <div class="plan-card">
+      <h4>${p.niche.emoji} Teste #${i+1}: ${p.niche.name}</h4>
+
+      ${profile.langs.length > 1 ? `<div class="lang-tabs">${langsHtml}</div>` : ''}
+
+      <h5 style="color:var(--gold); font-size:13px; margin:14px 0 8px;">🎯 Pontos de Entrada Autênticos</h5>
+      ${anglesHtml}
+
+      <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">📺 Canal de Teste</h5>
+      <dl>
+        <dt>Nome sugerido:</dt><dd><b>${variant.channel_name}</b></dd>
+        <dt>Idioma:</dt><dd>${p.active_lang.toUpperCase()}</dd>
+        <dt>Formato:</dt><dd>${p.first_video.format}</dd>
+      </dl>
+
+      <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">🎬 Primeiro Vídeo (teste)</h5>
+      <dl>
+        <dt>Título:</dt><dd>${variant.title}</dd>
+        <dt>Ângulo:</dt><dd>${p.first_video.angle_type}</dd>
+        <dt>Duração:</dt><dd>${p.first_video.duration}</dd>
+        <dt>Thumb:</dt><dd>${variant.thumbnail_idea}</dd>
+      </dl>
+
+      <h5 style="color:var(--accent); font-size:13px; margin:20px 0 8px;">🔧 Plano de Produção</h5>
+      <dl>
+        <dt>Roteiro:</dt><dd>${p.production_plan.roteiro}</dd>
+        <dt>Voz:</dt><dd>${p.production_plan.voz}</dd>
+        <dt>Visuais:</dt><dd>${p.production_plan.visuais}</dd>
+        <dt>Tempo:</dt><dd>${p.production_plan.tempo_estimado}</dd>
+      </dl>
+
+      <div class="kill">
+        <b>🛑 CRITÉRIO DE ABANDONO (${p.kill_criteria.days} dias após publicação):</b><br>
+        • <b>&lt; ${p.kill_criteria.fail} views</b> → descarta nicho (não insiste)<br>
+        • <b>${p.kill_criteria.consider} views</b> → faz 2º teste com ângulo diferente<br>
+        • <b>&gt; ${p.kill_criteria.pass} views</b> → vira candidato prioritário, produz +3 vídeos<br>
+        • <b>&gt; ${p.kill_criteria.double_down} views</b> → jackpot: investe pesado nesse nicho
+      </div>
+
+      <h5 style="color:var(--accent-2); font-size:13px; margin:20px 0 8px;">🪶 Roteiro completo</h5>
+      ${scriptSection}
+    </div>
+  `;
+}
+
+// ============================================================
+// OPENAI INTEGRAÇÃO
+// ============================================================
+function saveOpenAIKey() {
+  const key = $('openai-key').value.trim();
+  if (!key) {
+    localStorage.removeItem('openai_key');
+    $('key-status').textContent = '🗑 Key removida.';
+    $('key-status').style.color = 'var(--text-dim)';
+    return;
+  }
+  if (!key.startsWith('sk-')) {
+    $('key-status').textContent = '⚠️ Key inválida (deve começar com sk-).';
+    $('key-status').style.color = 'var(--danger)';
+    return;
+  }
+  localStorage.setItem('openai_key', key);
+  $('key-status').textContent = '✅ Key salva localmente. Nunca sai do teu navegador.';
+  $('key-status').style.color = 'var(--accent-2)';
+  if (PLANS_STATE.length) rerenderPlans();  // re-render pra habilitar botões
+}
+
+async function callOpenAI(systemPrompt, userPrompt, model = 'gpt-4o-mini') {
+  const key = localStorage.getItem('openai_key');
+  if (!key) throw new Error('OpenAI API key não configurada.');
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${key}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.8,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`OpenAI ${res.status}: ${err.substring(0, 200)}`);
+  }
+  const data = await res.json();
+  return data.choices[0].message.content;
+}
+
+async function switchPlanLang(planIdx, lang) {
+  const plan = PLANS_STATE[planIdx];
+  plan.active_lang = lang;
+
+  // Se já temos essa variante em cache, só re-renderiza
+  if (plan.variants[lang]) {
+    rerenderPlans();
+    return;
+  }
+
+  // Precisa gerar via OpenAI
+  const hasKey = !!localStorage.getItem('openai_key');
+  if (!hasKey) {
+    alert('Pra adaptar ao idioma ' + LANG_NAMES[lang] + ' precisas configurar tua OpenAI API key na seção 1 do perfil.');
+    plan.active_lang = Object.keys(plan.variants)[0];
+    rerenderPlans();
+    return;
+  }
+
+  // Mostra loading
+  plan.variants[lang] = { ...plan.variants[plan.active_lang], title: '(traduzindo…)', angles: [] };
+  rerenderPlans();
+
+  try {
+    const ptVariant = Object.values(plan.variants).find(v => v.angles.length);
+    const prompt = `Adapta pro idioma "${LANG_NAMES[lang]}" estes elementos de um canal YouTube dark/faceless. Mantém o TOM e o ÂNGULO (indignação, contradição, inverso), mas reescreve de forma natural no novo idioma (não seja tradução literal — seja reescrita culturalmente adaptada).
+
+NICHO: ${plan.niche.name}
+
+NOME DO CANAL ATUAL (${plan.active_lang}): ${ptVariant.channel_name}
+
+ÂNGULOS ATUAIS (${plan.active_lang}):
+${ptVariant.angles.map((a, i) => `${i+1}. [${a.tag}] ${a.hook}`).join('\n')}
+
+THUMBNAIL: ${ptVariant.thumbnail_idea}
+
+Responde em JSON válido:
+{
+  "channel_name": "...",
+  "angles": [{"tag": "...", "hook": "...", "type": "...", "source": "..."}, ...],
+  "title": "título do primeiro vídeo ≤70 chars",
+  "thumbnail_idea": "..."
+}`;
+
+    const result = await callOpenAI(
+      'Você é um especialista em canais dark/faceless do YouTube em múltiplos idiomas. Responde sempre em JSON válido, sem preâmbulo.',
+      prompt
+    );
+
+    // Tenta parsear JSON
+    const jsonMatch = result.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('resposta não veio em JSON');
+    const parsed = JSON.parse(jsonMatch[0]);
+
+    plan.variants[lang] = {
+      channel_name: parsed.channel_name,
+      angles: parsed.angles.map((a, i) => ({
+        tag: a.tag || 'ADAPTADO',
+        hook: a.hook,
+        type: a.type || ptVariant.angles[i]?.type || 'Adaptação',
+        source: a.source || ptVariant.angles[i]?.source || '',
+      })),
+      title: parsed.title,
+      thumbnail_idea: parsed.thumbnail_idea,
+    };
+  } catch (e) {
+    alert('Erro traduzindo: ' + e.message);
+    delete plan.variants[lang];
+    plan.active_lang = Object.keys(plan.variants)[0];
+  }
+  rerenderPlans();
+}
+
+async function generateFullScript(planIdx) {
+  const plan = PLANS_STATE[planIdx];
+  const hasKey = !!localStorage.getItem('openai_key');
+  if (!hasKey) {
+    alert('Precisa configurar tua OpenAI API key na seção 1 do perfil.');
+    return;
+  }
+
+  plan.script = 'loading';
+  rerenderPlans();
+
+  try {
+    const variant = plan.variants[plan.active_lang];
+    const bank = LAST_BANK;
+
+    // Encontra a experiência mais relevante
+    const relevantExp = bank.lived.find(exp => {
+      const e = norm(exp);
+      return plan.niche.affinity.some(k => e.includes(norm(k)));
+    }) || bank.lived[0] || '';
+
+    const relevantLie = bank.lies.find(exp => {
+      const e = norm(exp);
+      return plan.niche.affinity.some(k => e.includes(norm(k)));
+    }) || bank.lies[0] || '';
+
+    const systemPrompt = `Você é um roteirista de YouTube dark/faceless de alta performance. Escreve em ${LANG_NAMES[plan.active_lang]} com voz autoral anônima (primeira pessoa SEM nome, SEM rosto, SEM cidade específica). Usa detalhes concretos (datas, objetos, ações) pra provar que é real. Ataca mentiras aceitas com indignação controlada. Cria open-loops. Evita clichê de guru.`;
+
+    const userPrompt = `Escreve roteiro COMPLETO pra este vídeo faceless:
+
+NICHO: ${plan.niche.name}
+CANAL: ${variant.channel_name}
+DURAÇÃO ALVO: ${plan.first_video.duration}
+FORMATO: ${plan.first_video.format}
+
+ÂNGULO PRINCIPAL:
+"${variant.angles[0]?.hook}"
+
+MENTIRA A ATACAR:
+"${variant.angles.find(a => a.tag === 'ATAQUE FRONTAL')?.hook || variant.angles[1]?.hook}"
+
+MATÉRIA-PRIMA REAL DO AUTOR (use detalhes NÃO cite nome):
+- Vivido: "${relevantExp}"
+- Mentira odiada: "${relevantLie}"
+
+ESTRUTURA OBRIGATÓRIA:
+
+## 5 TÍTULOS (≤ 70 chars, com curiosity gap ou expectativa inversa)
+
+## HOOK (primeiros 10 segundos, ~40 palavras)
+
+## ATO 1 — Estabelece o padrão (1-3 min, em texto narrativo completo)
+
+## ATO 2 — Ataca a mentira aceita (3-7 min, em texto narrativo completo)
+
+## ATO 3 — Revela o inverso (7-9 min, em texto narrativo completo)
+
+## NEXT-CLICK (últimos 15s, vende o próximo vídeo)
+
+## DESCRIÇÃO YOUTUBE (~200 palavras, com 2-3 keywords naturais)
+
+## 10 TAGS
+
+## 3 IDEIAS DE THUMBNAIL (só texto, descrição visual)
+
+Usa Markdown. Linguagem em ${LANG_NAMES[plan.active_lang]}.`;
+
+    const result = await callOpenAI(systemPrompt, userPrompt, 'gpt-4o-mini');
+    // Converte markdown simples pra HTML pra melhor display
+    plan.script = result
+      .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+      .replace(/^# (.+)$/gm, '<h3>$1</h3>')
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/\n\n/g, '\n\n');
+  } catch (e) {
+    plan.script = null;
+    alert('Erro gerando roteiro: ' + e.message);
+  }
+  rerenderPlans();
+}
+
+function copyScript(planIdx) {
+  const plan = PLANS_STATE[planIdx];
+  const text = plan.script.replace(/<[^>]+>/g, '');
+  navigator.clipboard.writeText(text);
+  alert('Roteiro copiado!');
 }
 
 function copyPlansToClipboard() {
@@ -1078,6 +1393,16 @@ setupChips('constraints');
 SEED_BANK.lived.forEach(e => addExp('bank-lived', e, e.includes('geladeira')));
 SEED_BANK.lies.forEach(e => addExp('bank-lies', e));
 SEED_BANK.inverses.forEach(e => addExp('bank-inverses', e));
+
+// Restaura OpenAI key se salva
+(function restoreKey() {
+  const saved = localStorage.getItem('openai_key');
+  if (saved) {
+    $('openai-key').value = saved;
+    $('key-status').textContent = '✅ Key salva. Roteiro completo e multi-idioma liberados.';
+    $('key-status').style.color = 'var(--accent-2)';
+  }
+})();
 </script>
 </body>
 </html>
