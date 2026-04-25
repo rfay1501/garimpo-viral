@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-25T05:27:27.828228+00:00",
-  "total": 14,
+  "generated_at": "2026-04-25T15:28:32.155613+00:00",
+  "total": 17,
   "niches": {
     "financas": "Finanças Pessoais & Renda Extra",
     "misterios": "Curiosidades Bizarras & Mistérios",
@@ -24,20 +24,102 @@
   },
   "videos": [
     {
+      "video_id": "AU5mbiTuZSg",
+      "title": "Easiest Way to Make Money with AI Now (Zero Code)",
+      "description": "Let's build an online business, together, LIVE in 5 days using AI (Starting April 26th, 2026): https://link.consulting.com/yt-easiest-ai-mmoc3\n\nThe first time I hosted this challenge, people who implemented the system generated $8.9M in 90 days.\n\nThe second time, $15M.\n\nNow, from April 26th to May 3rd (2026), we're running the 3rd and final iteration of this Challenge, to break the records again.\n",
+      "url": "https://www.youtube.com/watch?v=AU5mbiTuZSg",
+      "thumbnail": "https://i.ytimg.com/vi_webp/AU5mbiTuZSg/maxresdefault.webp",
+      "duration": 1665,
+      "view_count": 179067,
+      "like_count": 7894,
+      "comment_count": 201,
+      "upload_date": "20260416",
+      "channel": "Iman Gadzhi",
+      "channel_id": "UCQ4FNww3XoNgqIlkBqEAVCg",
+      "channel_url": "https://www.youtube.com/channel/UCQ4FNww3XoNgqIlkBqEAVCg",
+      "channel_followers": 5910000,
+      "tags": [
+        "business",
+        "how to start a business",
+        "make money online",
+        "online business",
+        "Iman Gadzhi",
+        "Personal Brand",
+        "make money with ai",
+        "ai tools",
+        "how to make money online",
+        "make money online 2026"
+      ],
+      "niche": "financas",
+      "lang": "en",
+      "query": "how to make money online beginners",
+      "scoring": {
+        "score": 59.7,
+        "velocity": 42.3,
+        "niche_quality": 92.5,
+        "channel_freshness": 0,
+        "faceless_bonus": 100,
+        "video_age_days": 9.6
+      },
+      "is_faceless": true,
+      "score": 59.7
+    },
+    {
+      "video_id": "DipkxWlmneU",
+      "title": "Build an AI Agent and Earn Money Online (Step-by-Step Tutorial)",
+      "description": "To get started, purchase your Hostinger plan and access OpenClaw AI from here:\n\nUse this link to get started:  https://hostinger.com/HM20\nPlus, apply the coupon code HM20 for an additional 20% discount.\n\nA calm morning in 2016… vs a noisy, fast-paced digital morning in 2026.\nOur lives have evolved, but has the way we work evolved too?\n\nThis video isn’t just about AI… it’s about the next level - wh",
+      "url": "https://www.youtube.com/watch?v=DipkxWlmneU",
+      "thumbnail": "https://i.ytimg.com/vi/DipkxWlmneU/maxresdefault.jpg",
+      "duration": 2469,
+      "view_count": 25616,
+      "like_count": 1903,
+      "comment_count": 95,
+      "upload_date": "20260424",
+      "channel": "Him-eesh Madaan",
+      "channel_id": "UCZQDF0x18Xe6RZayvod99zA",
+      "channel_url": "https://www.youtube.com/channel/UCZQDF0x18Xe6RZayvod99zA",
+      "channel_followers": 8550000,
+      "tags": [
+        "AI agents",
+        "OpenClaw AI",
+        "AI assistant 2026",
+        "AI automation",
+        "make money with AI",
+        "AI tools for business",
+        "AI for beginners",
+        "AI workflow automation",
+        "AI productivity tools",
+        "future of AI"
+      ],
+      "niche": "financas",
+      "lang": "en",
+      "query": "how to make money online beginners",
+      "scoring": {
+        "score": 58.6,
+        "velocity": 39.7,
+        "niche_quality": 92.5,
+        "channel_freshness": 0,
+        "faceless_bonus": 100,
+        "video_age_days": 1.6
+      },
+      "is_faceless": true,
+      "score": 58.6
+    },
+    {
       "video_id": "J_IRLu5H4b8",
       "title": "TOP 30 MANSÕES MAIS CARAS DO MUNDO! - React Zona Insana",
       "description": "Hoje eu reagi às 30 mansões mais absurdamente CARAS do planeta… Estamos falando de casas que passam fácil dos 500 MILHÕES de dólares, e algumas chegam perto de 1 BILHÃO! 😳 Mansões que definitivamente não são pra qualquer um… é outro nível de riqueza. Vem ver comigo!\n\nVídeo original: https://www.youtube.com/watch?v=UGiJL4K5Sww\n\nMe segue nas redes sociais @brino\n\nLive todos os dias na roxinha, beijo",
       "url": "https://www.youtube.com/watch?v=J_IRLu5H4b8",
       "thumbnail": "https://i.ytimg.com/vi_webp/J_IRLu5H4b8/maxresdefault.webp",
       "duration": 2264,
-      "view_count": 274812,
-      "like_count": 15515,
+      "view_count": 277649,
+      "like_count": 15592,
       "comment_count": 195,
       "upload_date": "20260418",
       "channel": "Brino",
       "channel_id": "UCk7PLqymO8AziWRbBu8jeOA",
       "channel_url": "https://www.youtube.com/channel/UCk7PLqymO8AziWRbBu8jeOA",
-      "channel_followers": 7150000,
+      "channel_followers": 7160000,
       "tags": [
         "brino",
         "bruninho",
@@ -54,15 +136,56 @@
       "lang": "pt",
       "query": "mansoes mais caras do mundo",
       "scoring": {
-        "score": 57.4,
-        "velocity": 52.7,
+        "score": 57.1,
+        "velocity": 52.0,
         "niche_quality": 71.0,
         "channel_freshness": 0,
         "faceless_bonus": 100,
-        "video_age_days": 7.2
+        "video_age_days": 7.6
       },
       "is_faceless": true,
-      "score": 57.4
+      "score": 57.1
+    },
+    {
+      "video_id": "nFwVjgcwZ88",
+      "title": "6 FORMAS DE GANHAR DINHEIRO COM IA SEM APARECER E SEM INVESTIR NADA",
+      "description": "Faça seu canal crescer ainda mais com o Fórmula Youtube: https://formulayoutube.com.br/fyt/v01?utm_source=youtube&vk_source=organic_youtube&utm_campaign=YT_NN  \n--------------------------------------------------------------\nQue a IA tá deixando muita gente rica, isso você já sabe, mas enquanto muita gente ainda tá com medo de perder emprego para ela, você pode faturar usando ChatGPT, CapCut e até ",
+      "url": "https://www.youtube.com/watch?v=nFwVjgcwZ88",
+      "thumbnail": "https://i.ytimg.com/vi_webp/nFwVjgcwZ88/maxresdefault.webp",
+      "duration": 825,
+      "view_count": 16085,
+      "like_count": 1934,
+      "comment_count": 65,
+      "upload_date": "20260424",
+      "channel": "Nerds de Negócios",
+      "channel_id": "UCbTAwyq6nWOLnFag-PR0XVw",
+      "channel_url": "https://www.youtube.com/channel/UCbTAwyq6nWOLnFag-PR0XVw",
+      "channel_followers": 4200000,
+      "tags": [
+        "dinheiro",
+        "como ganhar dinheiro",
+        "como ganhar dinheiro na internet",
+        "marketing digital",
+        "investimento",
+        "como investir",
+        "e-commerce",
+        "redes sociais",
+        "rede social",
+        "economia"
+      ],
+      "niche": "financas",
+      "lang": "pt",
+      "query": "como ganhar dinheiro extra em casa",
+      "scoring": {
+        "score": 56.0,
+        "velocity": 33.0,
+        "niche_quality": 92.5,
+        "channel_freshness": 0,
+        "faceless_bonus": 100,
+        "video_age_days": 1.6
+      },
+      "is_faceless": true,
+      "score": 56.0
     },
     {
       "video_id": "rWrw6j6X6Ys",
@@ -71,14 +194,14 @@
       "url": "https://www.youtube.com/watch?v=rWrw6j6X6Ys",
       "thumbnail": "https://i.ytimg.com/vi_webp/rWrw6j6X6Ys/maxresdefault.webp",
       "duration": 2384,
-      "view_count": 12372,
+      "view_count": 13192,
       "like_count": null,
-      "comment_count": 7,
+      "comment_count": 27,
       "upload_date": "20260424",
       "channel": "Mikey No Code",
       "channel_id": "UCde0vB0fTwC8AT3sJofFV0w",
       "channel_url": "https://www.youtube.com/channel/UCde0vB0fTwC8AT3sJofFV0w",
-      "channel_followers": 122000,
+      "channel_followers": 123000,
       "tags": [
         "web development",
         "web development roadmap",
@@ -95,15 +218,15 @@
       "lang": "en",
       "query": "best ai tools 2026",
       "scoring": {
-        "score": 53.8,
-        "velocity": 33.4,
+        "score": 52.5,
+        "velocity": 30.1,
         "niche_quality": 84.8,
         "channel_freshness": 0,
         "faceless_bonus": 100,
-        "video_age_days": 1.2
+        "video_age_days": 1.6
       },
       "is_faceless": true,
-      "score": 53.8
+      "score": 52.5
     },
     {
       "video_id": "_ywNtw_6mGg",
@@ -112,8 +235,8 @@
       "url": "https://www.youtube.com/watch?v=_ywNtw_6mGg",
       "thumbnail": "https://i.ytimg.com/vi/_ywNtw_6mGg/maxresdefault.jpg",
       "duration": 1744,
-      "view_count": 178627,
-      "like_count": 10090,
+      "view_count": 179767,
+      "like_count": 10130,
       "comment_count": 212,
       "upload_date": "20260415",
       "channel": "Adrián Sáenz",
@@ -125,15 +248,15 @@
       "lang": "es",
       "query": "ingresos pasivos 2026",
       "scoring": {
-        "score": 51.8,
-        "velocity": 41.4,
+        "score": 51.6,
+        "velocity": 40.9,
         "niche_quality": 92.5,
         "channel_freshness": 0,
         "faceless_bonus": 50,
-        "video_age_days": 10.2
+        "video_age_days": 10.6
       },
       "is_faceless": false,
-      "score": 51.8
+      "score": 51.6
     },
     {
       "video_id": "ujKcn3_s470",
@@ -142,28 +265,28 @@
       "url": "https://www.youtube.com/watch?v=ujKcn3_s470",
       "thumbnail": "https://i.ytimg.com/vi_webp/ujKcn3_s470/maxresdefault.webp",
       "duration": 8712,
-      "view_count": 441656,
-      "like_count": 13898,
+      "view_count": 457260,
+      "like_count": 14226,
       "comment_count": 1200,
       "upload_date": "20260421",
       "channel": "Black Mango",
       "channel_id": "UCL1ITQtr7ogwPN-5w96kG7Q",
       "channel_url": "https://www.youtube.com/channel/UCL1ITQtr7ogwPN-5w96kG7Q",
-      "channel_followers": 690000,
+      "channel_followers": 691000,
       "tags": [],
       "niche": "true_crime",
       "lang": "es",
       "query": "casos de asesinato sin resolver",
       "scoring": {
-        "score": 50.5,
-        "velocity": 67.3,
+        "score": 50.2,
+        "velocity": 66.4,
         "niche_quality": 53.8,
         "channel_freshness": 0,
         "faceless_bonus": 50,
-        "video_age_days": 4.2
+        "video_age_days": 4.6
       },
       "is_faceless": false,
-      "score": 50.5
+      "score": 50.2
     },
     {
       "video_id": "lS8TmrfGAnE",
@@ -172,7 +295,7 @@
       "url": "https://www.youtube.com/watch?v=lS8TmrfGAnE",
       "thumbnail": "https://i.ytimg.com/vi_webp/lS8TmrfGAnE/maxresdefault.webp",
       "duration": 725,
-      "view_count": 17555,
+      "view_count": 18550,
       "like_count": null,
       "comment_count": 12,
       "upload_date": "20260421",
@@ -196,15 +319,15 @@
       "lang": "pt",
       "query": "automacao com ia",
       "scoring": {
-        "score": 48.7,
-        "velocity": 20.6,
+        "score": 48.4,
+        "velocity": 20.0,
         "niche_quality": 84.8,
         "channel_freshness": 0,
         "faceless_bonus": 100,
-        "video_age_days": 4.2
+        "video_age_days": 4.6
       },
       "is_faceless": true,
-      "score": 48.7
+      "score": 48.4
     },
     {
       "video_id": "JtBWA49t8hc",
@@ -213,9 +336,9 @@
       "url": "https://www.youtube.com/watch?v=JtBWA49t8hc",
       "thumbnail": "https://i.ytimg.com/vi/JtBWA49t8hc/maxresdefault.jpg",
       "duration": 1595,
-      "view_count": 15071,
-      "like_count": 409,
-      "comment_count": 84,
+      "view_count": 15371,
+      "like_count": 413,
+      "comment_count": 83,
       "upload_date": "20260421",
       "channel": "Chase AI",
       "channel_id": "UCoy6cTJ7Tg0dqS-DI-_REsA",
@@ -226,56 +349,97 @@
       "lang": "en",
       "query": "best ai tools 2026",
       "scoring": {
-        "score": 47.8,
-        "velocity": 18.4,
+        "score": 47.4,
+        "velocity": 17.3,
         "niche_quality": 84.8,
         "channel_freshness": 0,
         "faceless_bonus": 100,
-        "video_age_days": 4.2
+        "video_age_days": 4.6
       },
       "is_faceless": true,
-      "score": 47.8
+      "score": 47.4
     },
     {
-      "video_id": "GE3cYc7bZaM",
-      "title": "Timeline 1966 - Everything That Happened In 1966",
-      "description": "1965 was a year marked by major changes in the world of politics, music, sports, technology and film... and 1966 would be just as transformative. India would elect its first female prime minister, baseball legend Sandy Koufax would retire at his peak, and The Beatles would make the groundbreaking decision to stop touring. At the same time, Major League Baseball welcomed its first African-American ",
-      "url": "https://www.youtube.com/watch?v=GE3cYc7bZaM",
-      "thumbnail": "https://i.ytimg.com/vi/GE3cYc7bZaM/maxresdefault.jpg",
-      "duration": 1597,
-      "view_count": 66777,
-      "like_count": 2928,
-      "comment_count": 260,
-      "upload_date": "20260419",
-      "channel": "Weird History",
-      "channel_id": "UCc-N24Y5OA0gqbjBwe1ttfA",
-      "channel_url": "https://www.youtube.com/channel/UCc-N24Y5OA0gqbjBwe1ttfA",
-      "channel_followers": 4720000,
+      "video_id": "nbpAtWx9ySc",
+      "title": "Inside a $16,995,000 Luxury 7-Bedroom Miami Mansion with a Beautiful Resort-Style Pool",
+      "description": "Priced at $16,995,000, this brand-new French chateau-inspired estate in Pinecrest, Florida offers 7 bedrooms, 8 full bathrooms, 2 half bathrooms, and 9,644 sq ft of living space on a 0.87-acre lot. Designed by acclaimed architect Ramon Pacheco with interiors by Maribel Muniz of Orballo, Chateau St. Marie blends timeless European elegance with the scale, comfort, and indoor-outdoor lifestyle of Sou",
+      "url": "https://www.youtube.com/watch?v=nbpAtWx9ySc",
+      "thumbnail": "https://i.ytimg.com/vi/nbpAtWx9ySc/maxresdefault.jpg",
+      "duration": 2036,
+      "view_count": 55793,
+      "like_count": 2040,
+      "comment_count": 77,
+      "upload_date": "20260423",
+      "channel": "The Luxury Home Show",
+      "channel_id": "UCLYrUmw0L_bjFeQCvWuiijg",
+      "channel_url": "https://www.youtube.com/channel/UCLYrUmw0L_bjFeQCvWuiijg",
+      "channel_followers": 1230000,
       "tags": [
-        "Timeline 1966",
-        "The Year 1966",
-        "What Happeend In The Year 1966?",
-        "Events of 1966",
-        "Everything about 1966",
-        "Weird History",
-        "Weird History 1966",
-        "1965 Premiere Batman",
-        "1966 New York Transit Strike",
-        "Indra Gandhi 1965"
+        "Pinecrest mansion",
+        "Pinecrest Florida",
+        "Miami luxury real estate",
+        "Florida luxury home",
+        "French chateau inspired home",
+        "French inspired estate",
+        "luxury mansion tour",
+        "mansion tour",
+        "luxury house tour",
+        "South Florida real estate"
       ],
-      "niche": "misterios",
+      "niche": "luxo",
       "lang": "en",
-      "query": "strange historical events",
+      "query": "most expensive mansions",
       "scoring": {
-        "score": 46.7,
-        "velocity": 34.3,
-        "niche_quality": 59.8,
+        "score": 46.5,
+        "velocity": 44.1,
+        "niche_quality": 71.0,
         "channel_freshness": 0,
-        "faceless_bonus": 100,
-        "video_age_days": 6.2
+        "faceless_bonus": 50,
+        "video_age_days": 2.6
       },
-      "is_faceless": true,
-      "score": 46.7
+      "is_faceless": false,
+      "score": 46.5
+    },
+    {
+      "video_id": "iHlgiECXzu8",
+      "title": "Lo consiguieron! Ya está disponible la Mejor IA GRATIS y SIN Límites",
+      "description": "Mientras algunas compañías de IA suben sus precios y límites... Otras plataformas están totalmente desbloqueadas, ofreciendo los mejores modelos para unos buenos resultados \n\nAprovecha mi descuento exclusivo de NordVPN: https://nordvpn.com/alejavi\n\n🔥 Curso intensivo IA: https://academiartificial.com/curso-ia/\n       Curso de Make: https://academiartificial.com/curso-de-make/\n         Curso de Gemi",
+      "url": "https://www.youtube.com/watch?v=iHlgiECXzu8",
+      "thumbnail": "https://i.ytimg.com/vi_webp/iHlgiECXzu8/maxresdefault.webp",
+      "duration": 1925,
+      "view_count": 121889,
+      "like_count": 5340,
+      "comment_count": 152,
+      "upload_date": "20260412",
+      "channel": "Alejavi Rivera",
+      "channel_id": "UCxcDzs-4quJV4QsairlFYNg",
+      "channel_url": "https://www.youtube.com/channel/UCxcDzs-4quJV4QsairlFYNg",
+      "channel_followers": 541000,
+      "tags": [
+        "nano banana",
+        "gemini",
+        "quen",
+        "area ai",
+        "sonauto",
+        "suno",
+        "ollama",
+        "claude code",
+        "avatares ia",
+        "ia gratis"
+      ],
+      "niche": "ia_tech",
+      "lang": "es",
+      "query": "mejores herramientas ia 2026",
+      "scoring": {
+        "score": 45.6,
+        "velocity": 31.7,
+        "niche_quality": 84.8,
+        "channel_freshness": 0,
+        "faceless_bonus": 50,
+        "video_age_days": 13.6
+      },
+      "is_faceless": false,
+      "score": 45.6
     },
     {
       "video_id": "gpVFcCl6cOs",
@@ -284,9 +448,9 @@
       "url": "https://www.youtube.com/watch?v=gpVFcCl6cOs",
       "thumbnail": "https://i.ytimg.com/vi_webp/gpVFcCl6cOs/maxresdefault.webp",
       "duration": 1264,
-      "view_count": 71044,
-      "like_count": 2940,
-      "comment_count": 262,
+      "view_count": 71602,
+      "like_count": 2954,
+      "comment_count": 263,
       "upload_date": "20260415",
       "channel": "Remember When",
       "channel_id": "UCII0HsHMG7yT0MNrKhjeF5g",
@@ -308,15 +472,15 @@
       "lang": "en",
       "query": "bizarre facts nobody knows",
       "scoring": {
-        "score": 44.1,
-        "velocity": 28.1,
+        "score": 44.0,
+        "velocity": 27.6,
         "niche_quality": 59.8,
         "channel_freshness": 0,
         "faceless_bonus": 100,
-        "video_age_days": 10.2
+        "video_age_days": 10.6
       },
       "is_faceless": true,
-      "score": 44.1
+      "score": 44.0
     },
     {
       "video_id": "Pwor4YprhHk",
@@ -325,8 +489,8 @@
       "url": "https://www.youtube.com/watch?v=Pwor4YprhHk",
       "thumbnail": "https://i.ytimg.com/vi/Pwor4YprhHk/maxresdefault.jpg",
       "duration": 1109,
-      "view_count": 15203,
-      "like_count": 999,
+      "view_count": 15387,
+      "like_count": 1006,
       "comment_count": 42,
       "upload_date": "20260417",
       "channel": "Brett In Tech",
@@ -349,56 +513,15 @@
       "lang": "en",
       "query": "best ai tools 2026",
       "scoring": {
-        "score": 44.0,
-        "velocity": 8.9,
+        "score": 43.8,
+        "velocity": 8.3,
         "niche_quality": 84.8,
         "channel_freshness": 0,
         "faceless_bonus": 100,
-        "video_age_days": 8.2
+        "video_age_days": 8.6
       },
       "is_faceless": true,
-      "score": 44.0
-    },
-    {
-      "video_id": "6SQnC3L55dk",
-      "title": "23 anos depois, a polícia finalmente chegou nele | Caso Debbie Dorian",
-      "description": "Torne-se membro do canal\nhttps://www.youtube.com/channel/UCLtAc7d8n9lR7WJcjSUi2dQ/join\n\n#truecrimestories #DebbieDorian #casoscriminais \n\nEm 1996, Debbie Dorian foi atacada dentro do próprio apartamento.\n\nO crime chocou Fresno, ficou sem solução por quase 23 anos e escondeu uma verdade assustadora.\n\nNeste vídeo, a Su conta como esse caso brutal aconteceu, por que a polícia demorou tanto para chega",
-      "url": "https://www.youtube.com/watch?v=6SQnC3L55dk",
-      "thumbnail": "https://i.ytimg.com/vi/6SQnC3L55dk/maxresdefault.jpg",
-      "duration": 1721,
-      "view_count": 39160,
-      "like_count": 4846,
-      "comment_count": 212,
-      "upload_date": "20260420",
-      "channel": "Que mundo é esse?",
-      "channel_id": "UCLtAc7d8n9lR7WJcjSUi2dQ",
-      "channel_url": "https://www.youtube.com/channel/UCLtAc7d8n9lR7WJcjSUi2dQ",
-      "channel_followers": 149000,
-      "tags": [
-        "Debbie Dorian",
-        "caso Debbie Dorian",
-        "true crime",
-        "crime real",
-        "caso criminal",
-        "casos criminais",
-        "investigação criminal",
-        "mistério sem solução",
-        "cold case",
-        "DNA resolveu o caso"
-      ],
-      "niche": "true_crime",
-      "lang": "pt",
-      "query": "crimes reais sem solucao",
-      "scoring": {
-        "score": 42.8,
-        "velocity": 29.2,
-        "niche_quality": 53.8,
-        "channel_freshness": 0,
-        "faceless_bonus": 100,
-        "video_age_days": 5.2
-      },
-      "is_faceless": true,
-      "score": 42.8
+      "score": 43.8
     },
     {
       "video_id": "6oek0i3n7Ls",
@@ -407,14 +530,14 @@
       "url": "https://www.youtube.com/watch?v=6oek0i3n7Ls",
       "thumbnail": "https://i.ytimg.com/vi/6oek0i3n7Ls/maxresdefault.jpg",
       "duration": 1322,
-      "view_count": 10592,
-      "like_count": 96,
+      "view_count": 11253,
+      "like_count": 98,
       "comment_count": 6,
       "upload_date": "20260422",
       "channel": "Goal Rivals Español",
       "channel_id": "UCHDzZaVvLgUqHHmYhuslt6g",
       "channel_url": "https://www.youtube.com/channel/UCHDzZaVvLgUqHHmYhuslt6g",
-      "channel_followers": 335,
+      "channel_followers": 361,
       "tags": [
         "goal rivals espanol",
         "goal rivals español",
@@ -431,15 +554,15 @@
       "lang": "es",
       "query": "mansiones mas caras del mundo",
       "scoring": {
-        "score": 35.7,
-        "velocity": 17.2,
+        "score": 35.3,
+        "velocity": 16.3,
         "niche_quality": 71.0,
         "channel_freshness": 0,
         "faceless_bonus": 50,
-        "video_age_days": 3.2
+        "video_age_days": 3.6
       },
       "is_faceless": false,
-      "score": 35.7
+      "score": 35.3
     },
     {
       "video_id": "qhBMWvHZiK8",
@@ -448,8 +571,8 @@
       "url": "https://www.youtube.com/watch?v=qhBMWvHZiK8",
       "thumbnail": "https://i.ytimg.com/vi/qhBMWvHZiK8/maxresdefault.jpg",
       "duration": 10775,
-      "view_count": 15290,
-      "like_count": 320,
+      "view_count": 15778,
+      "like_count": 323,
       "comment_count": 25,
       "upload_date": "20260415",
       "channel": "DESPACHO DEL CRIMEN",
@@ -472,15 +595,15 @@
       "lang": "es",
       "query": "asesinos en serie documental",
       "scoring": {
-        "score": 33.5,
-        "velocity": 5.8,
+        "score": 33.4,
+        "velocity": 5.7,
         "niche_quality": 53.8,
         "channel_freshness": 0,
         "faceless_bonus": 100,
-        "video_age_days": 10.2
+        "video_age_days": 10.6
       },
       "is_faceless": true,
-      "score": 33.5
+      "score": 33.4
     },
     {
       "video_id": "to6GetdNCHw",
@@ -489,9 +612,9 @@
       "url": "https://www.youtube.com/watch?v=to6GetdNCHw",
       "thumbnail": "https://i.ytimg.com/vi/to6GetdNCHw/maxresdefault.jpg",
       "duration": 1876,
-      "view_count": 17980,
-      "like_count": 891,
-      "comment_count": 101,
+      "view_count": 18320,
+      "like_count": 904,
+      "comment_count": 100,
       "upload_date": "20260421",
       "channel": "Serial Killers Documentaries",
       "channel_id": "UCPnXkFy7z7JoLBtV2LLK2cQ",
@@ -512,15 +635,15 @@
       "lang": "pt",
       "query": "assassinos em serie documentario",
       "scoring": {
-        "score": 32.0,
-        "velocity": 21.0,
+        "score": 31.6,
+        "velocity": 19.9,
         "niche_quality": 53.8,
         "channel_freshness": 0,
         "faceless_bonus": 50,
-        "video_age_days": 4.2
+        "video_age_days": 4.6
       },
       "is_faceless": false,
-      "score": 32.0
+      "score": 31.6
     },
     {
       "video_id": "2Z-sue9E38A",
@@ -529,14 +652,14 @@
       "url": "https://www.youtube.com/watch?v=2Z-sue9E38A",
       "thumbnail": "https://i.ytimg.com/vi_webp/2Z-sue9E38A/maxresdefault.webp",
       "duration": 488,
-      "view_count": 23543,
-      "like_count": 584,
-      "comment_count": 156,
+      "view_count": 24259,
+      "like_count": 602,
+      "comment_count": 162,
       "upload_date": "20260414",
       "channel": "Men Psychology Simplified",
       "channel_id": "UCOqA4pnGKaQ9CjD7sdFr-NA",
       "channel_url": "https://www.youtube.com/channel/UCOqA4pnGKaQ9CjD7sdFr-NA",
-      "channel_followers": 5660,
+      "channel_followers": 5750,
       "tags": [
         "male psychology",
         "how to attract women",
@@ -553,15 +676,15 @@
       "lang": "en",
       "query": "male psychology explained",
       "scoring": {
-        "score": 30.7,
-        "velocity": 10.7,
+        "score": 30.6,
+        "velocity": 10.6,
         "niche_quality": 63.0,
         "channel_freshness": 0,
         "faceless_bonus": 50,
-        "video_age_days": 11.2
+        "video_age_days": 11.6
       },
       "is_faceless": false,
-      "score": 30.7
+      "score": 30.6
     }
   ]
 }
